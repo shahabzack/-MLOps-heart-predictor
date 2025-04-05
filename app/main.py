@@ -8,14 +8,20 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-# 🔥 Load XGBoost Booster model
-model = xgb.Booster()
-model.load_model("models/model1.json")  # Ensure this path is correct
-
+# ✅ Create FastAPI app instance first
 app = FastAPI(title="Heart Disease Prediction API")
 
+# ✅ Root endpoint
+@app.get("/")
+def root():
+    return {"message": "Welcome to the Heart Disease API!"}
 
-# Enums
+# 🔥 Load XGBoost Booster model
+model = xgb.Booster()
+model.load_model("models/model1.json")  # Make sure this path is valid
+
+
+# ✅ Enums
 class SexEnum(int, Enum):
     male = 1
     female = 0
@@ -49,7 +55,8 @@ class ThalEnum(int, Enum):
     fixed_defect = 2
     reversible_defect = 3
 
-# Input schema
+
+# ✅ Input schema
 class HeartInput(BaseModel):
     age: int
     sex: SexEnum
@@ -84,7 +91,8 @@ class HeartInput(BaseModel):
             }
         }
 
-# Prediction endpoint
+
+# ✅ Prediction endpoint
 @app.post("/predict")
 def predict(data: HeartInput):
     try:
@@ -121,7 +129,4 @@ def predict(data: HeartInput):
         }
 
     except Exception as e:
-        return {
-            "error": str(e)
-        }
-
+        return {"error": str(e)}
