@@ -4,3 +4,4 @@ xgboost
 numpy
 pydantic
 httpx
+pandas
