@@ -2,18 +2,20 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field
 from enum import Enum
 import numpy as np
+import pandas as pd
 import xgboost as xgb
 import warnings
-warnings.filterwarnings("ignore")
 
+warnings.filterwarnings("ignore")
 
 # 🔥 Load XGBoost Booster model
 model = xgb.Booster()
-model.load_model("models/model1.json")  # Make sure this path is correct
+model.load_model("models/model1.json")  # Ensure this path is correct
 
 app = FastAPI(title="Heart Disease Prediction API")
 
-# Input Enums
+
+# Enums
 class SexEnum(int, Enum):
     male = 1
     female = 0
@@ -49,18 +51,18 @@ class ThalEnum(int, Enum):
 
 # Input schema
 class HeartInput(BaseModel):
-    age: int = Field(..., description="Age in years")
+    age: int
     sex: SexEnum
     cp: ChestPainEnum
-    trestbps: int = Field(..., description="Resting BP (mm Hg)")
-    chol: int = Field(..., description="Serum cholesterol (mg/dl)")
+    trestbps: int
+    chol: int
     fbs: FbsEnum
     restecg: RestECGEnum
-    thalach: int = Field(..., description="Max heart rate achieved")
+    thalach: int
     exang: ExAngEnum
-    oldpeak: float = Field(..., description="ST depression induced by exercise")
+    oldpeak: float
     slope: SlopeEnum
-    ca: int = Field(..., ge=0, le=3, description="Major vessels (0–3)")
+    ca: int = Field(..., ge=0, le=3)
     thal: ThalEnum
 
     class Config:
@@ -85,14 +87,32 @@ class HeartInput(BaseModel):
 # Prediction endpoint
 @app.post("/predict")
 def predict(data: HeartInput):
-    x = np.array([[
-        data.age, data.sex.value, data.cp.value, data.trestbps,
-        data.chol, data.fbs.value, data.restecg.value, data.thalach,
-        data.exang.value, data.oldpeak, data.slope.value, data.ca, data.thal.value
-    ]])
-    
-    dmatrix = xgb.DMatrix(x)
+    features = [
+        data.age,
+        data.sex.value,
+        data.cp.value,
+        data.trestbps,
+        data.chol,
+        data.fbs.value,
+        data.restecg.value,
+        data.thalach,
+        data.exang.value,
+        data.oldpeak,
+        data.slope.value,
+        data.ca,
+        data.thal.value
+    ]
+
+    feature_names = [
+        "age", "sex", "cp", "trestbps", "chol",
+        "fbs", "restecg", "thalach", "exang",
+        "oldpeak", "slope", "ca", "thal"
+    ]
+
+    input_df = pd.DataFrame([features], columns=feature_names)
+    dmatrix = xgb.DMatrix(input_df)
     y_prob = model.predict(dmatrix)
+
     result = "Heart Disease" if y_prob[0] > 0.5 else "No Heart Disease"
     return {
         "prediction": result,
