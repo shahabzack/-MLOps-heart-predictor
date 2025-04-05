@@ -87,34 +87,41 @@ class HeartInput(BaseModel):
 # Prediction endpoint
 @app.post("/predict")
 def predict(data: HeartInput):
-    features = [
-        data.age,
-        data.sex.value,
-        data.cp.value,
-        data.trestbps,
-        data.chol,
-        data.fbs.value,
-        data.restecg.value,
-        data.thalach,
-        data.exang.value,
-        data.oldpeak,
-        data.slope.value,
-        data.ca,
-        data.thal.value
-    ]
+    try:
+        features = [
+            data.age,
+            data.sex.value,
+            data.cp.value,
+            data.trestbps,
+            data.chol,
+            data.fbs.value,
+            data.restecg.value,
+            data.thalach,
+            data.exang.value,
+            data.oldpeak,
+            data.slope.value,
+            data.ca,
+            data.thal.value
+        ]
 
-    feature_names = [
-        "age", "sex", "cp", "trestbps", "chol",
-        "fbs", "restecg", "thalach", "exang",
-        "oldpeak", "slope", "ca", "thal"
-    ]
+        feature_names = [
+            "age", "sex", "cp", "trestbps", "chol",
+            "fbs", "restecg", "thalach", "exang",
+            "oldpeak", "slope", "ca", "thal"
+        ]
 
-    input_df = pd.DataFrame([features], columns=feature_names)
-    dmatrix = xgb.DMatrix(input_df)
-    y_prob = model.predict(dmatrix)
+        input_df = pd.DataFrame([features], columns=feature_names)
+        dmatrix = xgb.DMatrix(input_df)
+        y_prob = model.predict(dmatrix)
 
-    result = "Heart Disease" if y_prob[0] > 0.5 else "No Heart Disease"
-    return {
-        "prediction": result,
-        "confidence": round(float(y_prob[0]) * 100, 2)
-    }
+        result = "Heart Disease" if y_prob[0] > 0.5 else "No Heart Disease"
+        return {
+            "prediction": result,
+            "confidence": round(float(y_prob[0]) * 100, 2)
+        }
+
+    except Exception as e:
+        return {
+            "error": str(e)
+        }
+
