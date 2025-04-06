@@ -74,7 +74,7 @@ if st.button("Predict"):
     }
 
     try:
-        res = requests.post("http://fastapi:8000/predict", json=input_data)
+        res = requests.post("https://fastapi-mlops-4yyq.onrender.com/predict", json=input_data) # render hosted fast api link
         if res.status_code == 200:
             result = res.json()
             st.success(f"🩺 Prediction: **{result['prediction']}**")
