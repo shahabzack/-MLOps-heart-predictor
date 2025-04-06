@@ -1,3 +1,6 @@
+<p align="center">
+  <img src="assets/mlop.jpg" alt="CardioCastMLOps Banner" width="600">
+</p>
 
 # 🫀 CardioCastMLOps — Heart Disease Prediction with MLOps
 
