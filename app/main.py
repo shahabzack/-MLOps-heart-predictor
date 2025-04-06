@@ -10,11 +10,12 @@ warnings.filterwarnings("ignore")
 # ✅ Create FastAPI app instance first
 app = FastAPI(title="Heart Disease Prediction API")
 
+
 # ✅ Root endpoint
 @app.get("/")
 def root():
-
     return {"message": "Welcome to the Heart Disease API!"}
+
 
 # 🔥 Load XGBoost Booster model
 model = xgb.Booster()
@@ -26,29 +27,35 @@ class SexEnum(int, Enum):
     male = 1
     female = 0
 
+
 class ChestPainEnum(int, Enum):
     typical_angina = 0
     atypical_angina = 1
     non_anginal_pain = 2
     asymptomatic = 3
 
+
 class FbsEnum(int, Enum):
     yes = 1
     no = 0
+
 
 class RestECGEnum(int, Enum):
     normal = 0
     st_abnormality = 1
     lv_hypertrophy = 2
 
+
 class ExAngEnum(int, Enum):
     yes = 1
     no = 0
+
 
 class SlopeEnum(int, Enum):
     upsloping = 0
     flat = 1
     downsloping = 2
+
 
 class ThalEnum(int, Enum):
     normal = 1
@@ -95,7 +102,6 @@ class HeartInput(BaseModel):
 # ✅ Prediction endpoint
 @app.post("/predict")
 def predict(data: HeartInput):
-    
     try:
         features = [
             data.age,
