@@ -4,7 +4,7 @@
 
 # 🫀 CardioCastMLOps — Heart Disease Prediction with MLOps
 
-**"From Model to Monitor" — A complete beginner-friendly MLOps pipeline using FastAPI, Streamlit, CI/CD, and XGBoost with 95% accuracy!**
+"From Model to Monitor" — A complete beginner-friendly MLOps pipeline using FastAPI, Streamlit, CI/CD, and XGBoost with 95% accuracy!
 ---
 
 ## 🚀 Project Summary
