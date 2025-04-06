@@ -19,7 +19,7 @@ def root():
 
 # 🔥 Load XGBoost Booster model
 model = xgb.Booster()
-model.load_model("models/model1.json")  # Make sure this path is valid
+model.load_model("models/model1.json")  
 
 
 # ✅ Enums
