@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
 from enum import Enum
-import numpy as np
 import pandas as pd
 import xgboost as xgb
 import warnings
@@ -14,6 +13,7 @@ app = FastAPI(title="Heart Disease Prediction API")
 # ✅ Root endpoint
 @app.get("/")
 def root():
+
     return {"message": "Welcome to the Heart Disease API!"}
 
 # 🔥 Load XGBoost Booster model
@@ -95,6 +95,7 @@ class HeartInput(BaseModel):
 # ✅ Prediction endpoint
 @app.post("/predict")
 def predict(data: HeartInput):
+    
     try:
         features = [
             data.age,
