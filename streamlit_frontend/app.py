@@ -74,7 +74,7 @@ if st.button("Predict"):
     }
 
     try:
-        res = requests.post("http://127.0.0.1:8000/predict", json=input_data)
+        res = requests.post("http://fastapi:8000/predict", json=input_data)
         if res.status_code == 200:
             result = res.json()
             st.success(f"🩺 Prediction: **{result['prediction']}**")
