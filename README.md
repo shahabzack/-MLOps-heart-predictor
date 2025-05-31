@@ -72,6 +72,8 @@ streamlit run app/streamlit_ui.py
 ## 🌐 Live Demo
 
 🔗 [https://cardiocast-mlops.onrender.com/](https://cardiocast-mlops.onrender.com/)
+🔗 [https://fastapi-mlops-4yyq.onrender.com/](https://fastapi-mlops-4yyq.onrender.com/)
+  
 
 ---
 
